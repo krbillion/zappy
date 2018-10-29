@@ -4,6 +4,8 @@ from django.db.models import Q
 from .models import Product
 from django.contrib.auth.decorators import login_required
 from .forms import ProfileForm, UserForm
+from django.contrib.auth import logout
+from django.http import HttpResponseRedirect
 
 def index(request):
     product = Product.objects.all()
@@ -12,6 +14,10 @@ def index(request):
 
 def signin(request):
     return render(request, 'registration/login.html', context)
+
+def logoutView(request):
+    logout(request)
+    return HttpResponseRedirect("/")
 
 # sign up user if they are not registered
 def signup(request):
@@ -45,8 +51,7 @@ def search(request):
         context = {"products":product}
         return render(request, 'mainapp/index.html', context)
 
-#
-# @login_required
+@login_required
 def profile(request):
     if request.method == 'POST':
         user_form = UserForm(request.POST, instance=request.user)

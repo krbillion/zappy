@@ -10,6 +10,7 @@
     <table class="table">
       <thead>
         <th>Item</th>
+        <th>Quantity</th>
         <th>Price</th>
         <th></th>
       </thead>
@@ -20,13 +21,17 @@
           <td>Total: {{ cart.total }}</td>
         </tr>
       </tfoot>
-      {% for item in cart.products.all %}
+      {% for item in cart.cartitem_set.all %}
       <tr>
-        <td>{{item.title}}</td> <td>{{ item.price }}</td> <td><a href="{% url 'carts:update_cart' item.slug %}">Remove</a></td>
+        <td>{{item.product.title}}</td><td>{{item.quantity}}</td><td>{{ item.product.price }}</td><td><a href="{% url 'carts:update_cart' item.product.slug %}?qty=0">Remove</a></td>
       </tr>
       {% endfor %}
     </table>
 {% endif %}
+</div>
+<div class="btn-group content" >
+  <a href="{% url 'orders:checkout' %}">Checkout</a>
+  <button type="button" class="btn btn-sm btn-outline-secondary">Go back</button>
 </div>
 </div>
 {% endblock %}

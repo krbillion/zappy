@@ -16,7 +16,13 @@
     </div>
   </div>
   <div class="col-sm-8">
-    <h1>{{ product.title }} <a href="{% url 'carts:update_cart' product.slug %}" class="float-right">Add to Cart</a></h1>
+    <h1>{{ product.title }}
+        <!-- <a href="{% url 'carts:update_cart' product.slug %}?qty=12" class="float-right">Add to Cart</a> -->
+     </h1>
+       <form class="form float-right" action="{% url 'carts:update_cart' product.slug %}" method="get">
+         <input type="number" name="qty" value="1">
+         <input type="submit" name="" value="Add To Cart">
+       </form>
     <hr>
     price: {{product.price}} <br>
     Shipping: Free with 500+ Rs. purchase

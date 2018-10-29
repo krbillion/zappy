@@ -13,7 +13,7 @@ SECRET_KEY = 'ws3xezvfcl#*no!cy+z+jk&26-p9qr1i0!n-x6wne36l8%dtx('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -21,6 +21,8 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'carts',
     'mainapp',
+    'orders',
+    'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,7 +43,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'zappy.urls'
 
-# CRISPY_TEMPLATE_PACK = 'bootstrap4'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
 TEMPLATES = [

@@ -2,7 +2,7 @@ from django.shortcuts import render, HttpResponseRedirect, reverse
 # from django.core.urlresolvers import reverse
 
 # Create your views here.
-from .models import Cart
+from .models import Cart, CartItem
 from mainapp.models import Product
 
 def view(request):
@@ -10,6 +10,7 @@ def view(request):
         the_id = request.session['cart_id']
     except:
         the_id = None
+
     if the_id:
         cart = Cart.objects.get(id=the_id)
         context = {"cart": cart}
@@ -20,6 +21,13 @@ def view(request):
 
 def update_cart(request, slug):
     request.session.set_expiry(1800)
+    try:
+        qty = request.GET.get('qty')
+        update_qty = True
+    except:
+        qty = None
+        update_qty = False
+
     try:
         the_id = request.session['cart_id']
     except:
@@ -36,16 +44,32 @@ def update_cart(request, slug):
         pass
     except:
         pass
-    if not product in cart.products.all():
-        cart.products.add(product)
+
+    cart_item, created = CartItem.objects.get_or_create(cart=cart, product=product)
+
+    if created:
+        print("created")
+
+    if update_qty and qty:
+        if int(qty) == 0:
+            cart_item.delete()
+        else:
+            cart_item.quantity = qty
+            cart_item.save()
     else:
-        cart.products.remove(product)
+        pass
+
+    # if not cart_item in cart.items.all():
+    #     cart.items.add(cart_item)
+    # else:
+    #     cart.items.remove(cart_item)
 
     new_total = 0.00
-    for item in cart.products.all():
-        new_total += float(item.price)
+    for item in cart.cartitem_set.all():
+        total_for_product = float(item.product.price) * item.quantity
+        new_total += total_for_product
 
-    request.session['items_total'] = cart.products.count()
+    request.session['items_total'] = cart.cartitem_set.count()
     cart.total = new_total
     cart.save()
     return HttpResponseRedirect(reverse("carts:cart"))

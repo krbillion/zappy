@@ -47,8 +47,13 @@
           <a class="nav-link" href="{% url 'mainapp:profile'%}">welcome, {{ user.username }} <span class="sr-only">(current)</span></a>
         </li>
         {% endif %}
+        {% if user.is_authenticated%}
         <li class="nav-item">
-          <a href="{% url 'carts:cart'%}"><img class="nav-link" src={% static 'mainapp/images/cart-3x.png' %}><span class="sr-only">(current)</span>{{ request.session.items_total }}</a>
+          <a class="nav-link" href="{% url 'mainapp:logout'%}">Logout<span class="sr-only">(current)</span></a>
+        </li>
+        {% endif %}
+        <li class="nav-item">
+          <a href="{% url 'carts:cart'%}"><img class="nav-link float-left" src={% static 'mainapp/images/cart-3x.png' %}><span class="sr-only">(current)</span>{{ request.session.items_total }}</a>
         </li>
       </ul>
     </div>

@@ -9,7 +9,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ['price']
     list_filter = ['price', 'timestamp']
     readonly_fields = ['updated', 'timestamp']
-    prepopulated_fields = {"slug":("title",)}
+    prepopulated_fields = {"slug":('title',)}
 
     class Meta:
         model = Product
