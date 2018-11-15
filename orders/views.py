@@ -82,11 +82,10 @@ def checkout(request):
         new_order.order_id = id_generator()
         new_order.save()
 
+    # if new_order.status == "Finished":
+    del request.session['cart_id']
+    del request.session['items_total']
+    return HttpResponseRedirect(reverse('carts:cart'))
 
-    if new_order.status == "Finished":
-        del request.session['cart_id']
-        del request.session['items_total']
-        return HttpResponseRedirect(reverse('carts:cart'))
 
-
-    return render(request, 'mainapp/index.html', context=None)
+    # return render(request, 'mainapp/index.html', context=None)
